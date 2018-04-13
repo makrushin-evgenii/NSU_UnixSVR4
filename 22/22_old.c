@@ -35,7 +35,7 @@ int main(int argc, char **argv)
                 {
                         struct timeval timeout;
                         timeout.tv_sec = TIME_OUT_IN_SECONDS;
-                        timeout.tv_usec = 0;    
+                        timeout.tv_usec = 0;
 
                         fd_set readfds;
                         FD_ZERO(&readfds);

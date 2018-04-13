@@ -1,7 +1,7 @@
 // ==++==
-// 
+//
 //   Master
-// 
+//
 // ==--==
 /*============================================================
 **
@@ -10,7 +10,6 @@
 ** от каждого процеса.
 **
 ===========================================================*/
-
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -61,32 +60,19 @@ int main()
 
     // Получение сообщений и ожидание завершения
     int still_active = NCHILD;
-    for(;;)
+    while (still_active)
     {
-        for (int child = 0; still_active && child < NCHILD; child++)
+        if (msgrcv(msgqid, &buf, MAX_SZ, 0, 0) == -1)
         {
-            if (r_pid[child] != IDLE_CHILD)
-            {
-                if (msgrcv(msgqid, &buf, MAX_SZ, r_pid[child], IPC_NOWAIT) != -1)
-                {
-                    if (!strncmp(buf.mtext, "DONE", 4))
-                    {
-                        still_active--;
-                        r_pid[child] = IDLE_CHILD;
-                    }
-                    printf("%ld: [%s]\n", buf.mtype, buf.mtext);
-                }
-            }
-
+            continue;
         }
 
-        sleep(1);
-        
-
-        if (still_active == 0)
+        if (!strncmp(buf.mtext, "DONE", 4))
         {
-            break;
+            still_active--;
         }
+
+        printf("%ld: [%s]\n", buf.mtype, buf.mtext);
     }
 
     // Закрытие очереди
@@ -138,11 +124,7 @@ void create_send_forks(char *const *envp, pid_t *r_pid, int count)
         else
             r_pid[child] = this_fork;
     }
-
 }
-
-
-
 
 void close_query_and_quit(int sig)
 {

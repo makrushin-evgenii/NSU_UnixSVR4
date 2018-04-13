@@ -11,7 +11,7 @@
 
 int files_count;
 FILE *fd[MAXOPEN];
-char *file_name[MAXOPEN];      
+char *file_name[MAXOPEN];
 int file_row[MAXOPEN];
 
 int alarm_flag = 0;
@@ -70,29 +70,29 @@ void zip_files()
         for (int i = 0; i < files_count; ++i)
         {
             if (fd[i] == NULL)
-            {   // файл был закрыт
+            { // файл был закрыт
                 continue;
             }
 
             alarm(TIME_OUT);
 
             if (fgets(line_buf, BUFSIZ, fd[i]) == NULL && !alarm_flag)
-            {   // EOF => закрыть файл
+            { // EOF => закрыть файл
                 fclose(fd[i]);
                 fd[i] = NULL;
                 --open_files;
             }
             else if (alarm_flag)
-            {   // TIME_OUT => перейти к следующему файлу
+            { // TIME_OUT => перейти к следующему файлу
                 alarm_flag = 0;
                 continue;
             }
             else
-            {   // OK => вывести строку
+            { // OK => вывести строку
                 printf("\x1b[32m%s\x1b[0m:%d: ", file_name[i], file_row[i]++);
                 fputs(line_buf, stdout);
             }
-            
+
             alarm(0);
         }
     }
@@ -111,7 +111,7 @@ void set_alarm_handler()
 
 void alarm_handler(int sig)
 {
-    siginterrupt(SIGALRM, 1);   // разрешает прерывать системные вызовы
+    siginterrupt(SIGALRM, 1); // разрешает прерывать системные вызовы
     // Если аргумент flag истинен (1) и началась пересылка данных, то системный вызов будет прерван и вернёт действительное количество пересланных данных.
     alarm_flag = 1;
 }
