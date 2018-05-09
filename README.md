@@ -33,29 +33,20 @@ sshfs username@solarka.ccfit.nsu.ru:/home/students/[group]/username /home/userna
 Добавте это в файл ~/.vimrc.
 
 Подсветка синтаксиса
-
 syntax on
 
 Настройка tab'ов. Опционально.
-
 set expandtab
-
 set smarttab
-
 set tabstop=4 
-
 set shiftwidth=4
 
 Подавить разворачивание tab'ов в Makefile 
-
 autocmd FileType make setlocal noexpandtab
 
 set cident
-
 set nu
-
 set sm
-
 set insecsearch
 
 colorsheme ${ВашаЛюбимаяСхема}
@@ -66,6 +57,5 @@ colorsheme ${ВашаЛюбимаяСхема}
 После редактирования .vimrc наберите `:so%`, чтобы vim вычитал конфиг.
 
 Используйте сеть Internet, если что-то не понятно.
-
 P.S. можно бесконечно пердолится и ~~дрочить~~ настраивать vim под себя.**TAKE IT BOY** 
 
